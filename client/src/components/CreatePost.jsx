@@ -7,7 +7,7 @@ const CreatePost = () => {
   const [showPhotoInput, setShowPhotoInput] = useState(false)
   return (
     <div>
-      <form className="bg-white shadow rounded-lg mb-6 p-4 shadow-xl border border-slate-200">
+      <form className="bg-white shadow rounded-lg mb-6 p-4 shadow-xl border border-blue-500">
         <textarea
           name="message"
           placeholder="Type something..."
