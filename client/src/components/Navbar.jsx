@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import SNAPBOOK from "../assets/SNAPBOOK.png";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { AiOutlineMessage } from "react-icons/ai";
-import { MdDarkMode } from "react-icons/md";
+import { MdDarkMode, MdOutlineLogout } from "react-icons/md";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [show, setShow] = useState(false);
   return (
     <div className="px-4 py-5 md:px-24 lg:px-8">
       <div className="relative flex items-center justify-between">
@@ -53,11 +55,31 @@ const Navbar = () => {
             <IoNotificationsOutline className="text-2xl" />
           </li>
           <li>
-            <img
-              className="h-9 w-9 rounded-full ring-2 ring-white"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt="profile"
-            />
+            <div
+              className="flex items-center justify-between border-2 rounded border-blue-200 w-20 p-1 cursor-pointer"
+              onClick={() => setShow(!show)}
+            >
+              <img
+                className="h-9 w-9 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt="profile"
+              />
+              <div className="cursor-pointer text-gray-600 dark:text-gray-400 mr-3">
+                {!show ? (
+                  <IoIosArrowDropdown className="text-blue-200 ml-3" />
+                ) : (
+                  <IoIosArrowDropup className="text-blue-200 ml-3" />
+                )}
+              </div>
+            </div>
+            {show && (
+              <ul className="visible transition duration-300 opacity-100 bg-white shadow rounded mt-2 w-fit absolute">
+                <li className="cursor-pointer text-gray-600 text-sm dark:hover:bg-blue-200 dark:hover:text-white leading-3 tracking-normal py-3 hover:bg-gray-100 px-3 font-normal flex items-center">
+                  <span>Logout</span>
+                  <MdOutlineLogout className="text-xl ml-3" />
+                </li>
+              </ul>
+            )}
           </li>
         </ul>
         <div className="lg:hidden">
@@ -141,21 +163,41 @@ const Navbar = () => {
                       <IoNotificationsOutline className="text-2xl" />
                     </li>
                     <li>
-                      <img
-                        className="h-9 w-9 rounded-full ring-2 ring-white"
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="profile"
-                      />
+                      <div
+                        className="flex items-center justify-between border-2 rounded border-blue-200 w-20 p-1 cursor-pointer"
+                        onClick={() => setShow(!show)}
+                      >
+                        <img
+                          className="h-9 w-9 rounded-full ring-2 ring-white"
+                          src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt="profile"
+                        />
+                        <div className="cursor-pointer text-gray-600 dark:text-gray-400 mr-3">
+                          {!show ? (
+                            <IoIosArrowDropdown className="text-blue-200 ml-3" />
+                          ) : (
+                            <IoIosArrowDropup className="text-blue-200 ml-3" />
+                          )}
+                        </div>
+                      </div>
+                      {show && (
+                        <ul className="visible transition duration-300 opacity-100 bg-white shadow rounded mt-2 w-fit absolute">
+                          <li className="cursor-pointer text-gray-600 text-sm dark:hover:bg-blue-200 dark:hover:text-white leading-3 tracking-normal py-3 hover:bg-gray-100 px-3 font-normal flex items-center">
+                            <span>Logout</span>
+                            <MdOutlineLogout className="text-xl ml-3" />
+                          </li>
+                        </ul>
+                      )}
                     </li>
                     <ul className="border-blue-600 mx-auto px-3 rounded-xl focus-within:border-none focus-within:ring focus-within:ring-offset-2 flex h-10 items-center justify-start border-2 bg-gray-100 leading-4 ring-blue-600 sm:w-96">
-          <li>
-            <input
-              placeholder="Search"
-              value=""
-              className="peer flex-grow bg-transparent text-gray-500 outline-none"
-            />
-          </li>
-        </ul>
+                      <li>
+                        <input
+                          placeholder="Search"
+                          value=""
+                          className="peer flex-grow bg-transparent text-gray-500 outline-none"
+                        />
+                      </li>
+                    </ul>
                   </ul>
                 </nav>
               </div>
