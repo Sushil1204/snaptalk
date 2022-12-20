@@ -1,54 +1,69 @@
 import React, { useState } from "react";
 import {
-  FaEllipsisH,
+  FaHeart,
   FaRegBookmark,
   FaRegCommentDots,
   FaRegHeart,
   FaRegPaperPlane,
 } from "react-icons/fa";
+import { IoPersonAdd } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { setPost, setFriends } from "../state";
+import Friend from "./Friend";
 
-const Post = () => {
+
+const Post = ({ postId,
+  postUserId,
+  name,
+  description,
+  location,
+  picturePath,
+  userPicturePath,
+  likes,
+  comments,}) => {
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
+  const loggedInUserId = useSelector((state) => state.user._id);
+  const isLiked = Boolean(likes[loggedInUserId]);
+  const likeCount = Object.keys(likes).length;
+
+
+  const patchLike = async () => {
+    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: loggedInUserId }),
+    });
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+  };
+
+  
+
   return (
     <div className="border-solid border-2 border border-blue-600 max-w-md mx-auto my-8 bg-white shadow-lg rounded-md overflow-hidden md:max-w-md ">
       <div className="md:flex">
         <div className="w-full">
-          <div className="flex justify-between items-center p-3">
-            <div className="flex flex-row items-center">
-              <img
-                src="https://i.imgur.com/aq39RMA.jpg"
-                className="rounded-full"
-                width="40"
-              />
-
-              <div className="flex flex-row items-center ml-2">
-                <span className="font-bold mr-1">Mautic War</span>
-
-                <small className="h-1 w-1 bg-gray-300 rounded-full mr-1 mt-1"></small>
-                <a
-                  href="#"
-                  className="text-blue-600 text-sm hover:text-blue-800"
-                >
-                  Follow
-                </a>
-              </div>
-            </div>
-
-            <div className="pr-2">
-              <FaEllipsisH className="mr-2 font-xl hover:text-gray-600" />
-            </div>
-          </div>
-
+        <Friend
+        friendId={postUserId}
+        name={name}
+        subtitle={location}
+        userPicturePath={userPicturePath}
+      />
           <div>
             <img
-              src="https://i.imgur.com/kOFqgtE.jpg"
+              src={`http://localhost:3001/assets/${picturePath}`}
               className="w-full h-75"
             />
           </div>
 
           <div className="p-4 flex justify-between items-center">
             <div className="flex flex-row items-center">
-              <FaRegHeart className="mr-2 text-xl hover:text-gray-600" />
+             {isLiked ? <FaHeart className="mr-2 text-xl text-red-600"onClick={patchLike}/>: <FaRegHeart className="mr-2 text-xl hover:text-gray-600" onClick={patchLike}/>}
               <FaRegCommentDots
                 className="mr-2 text-xl hover:text-gray-600"
                 onClick={() => setShowCommentBox(!showCommentBox)}
@@ -59,17 +74,15 @@ const Post = () => {
             </div>
           </div>
           <div className="text-gray-800 text-sm mx-3 px-2">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500
+           {description}
           </div>
           <div className="flex w-full border-t border-gray-100">
             <div className="mt-3 mx-5 flex flex-row text-xs">
               <div className="flex text-gray-800 font-normal rounded-md mb-2 mr-4 items-center">
-                Comments:<div className="ml-1 text-gray-800 text-ms"> 30</div>
+                Comments:<div className="ml-1 text-gray-800 text-ms">{ comments.length}</div>
               </div>
               <div className="flex text-gray-700 font-normal rounded-md mb-2 mr-4 items-center">
-                Likes: <div className="ml-1 text-gray-800 text-ms"> 60k</div>
+                Likes: <div className="ml-1 text-gray-800 text-ms">{ likeCount}</div>
               </div>
             </div>
             <div className="mt-3 mx-5 w-full flex justify-end text-xs">
@@ -85,7 +98,8 @@ const Post = () => {
           <div className="text-black p-4 antialiased flex">
             <img
               className="rounded-full h-8 w-8 mr-2 mt-1 "
-              src="https://picsum.photos/id/1027/200/200"
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                  alt="pic"
             />
             <div>
               <div className="bg-gray-100 rounded-lg px-4 pt-2 pb-2.5 border border-slate-400">
