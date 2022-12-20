@@ -2,8 +2,10 @@ import React from 'react'
 import CreatePost from '../components/CreatePost'
 import Navbar from '../components/Navbar'
 import ProfileCard from '../components/ProfileCard'
-import Post from '../components/Post'
 import { useSelector } from 'react-redux'
+import Feed from '../components/Feed'
+import Advert from '../components/Advert'
+import FriendsList from '../components/FriendsList'
 
 const HomePage = () => {
   const { _id, picturePath } = useSelector((state) => state.user);
@@ -16,7 +18,11 @@ const HomePage = () => {
         </div>
         <div className='col-span-2'>
           <CreatePost />
-          <Post/>
+          <Feed userId={_id}/>
+        </div>
+        <div className="">
+          <Advert />
+          <FriendsList userId={_id}/>
         </div>
       </div>
       </div>
